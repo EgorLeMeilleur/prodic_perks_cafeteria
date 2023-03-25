@@ -1,7 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.template.defaulttags import url
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('register/', include("Worker.urls"))
+    path('account/', include('Worker.urls'))
 ]
