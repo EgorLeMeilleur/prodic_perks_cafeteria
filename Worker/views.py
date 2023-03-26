@@ -5,4 +5,4 @@ from django.http import HttpResponse
 
 
 def home(request):
-    return HttpResponse("<h4>ABOBA</h4>")
+    return render(request, 'Worker/login.html')
