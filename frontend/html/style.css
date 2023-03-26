@@ -1,15 +1,13 @@
 .header-logo {
     position: absolute;
     float: right;
-    right: 0px;
+    right: 10px;
     top: 0px;
 }
 
 .rect {
     display: flex;
     position: absolute;
-    width: 1100px;
-    height: 40px;
     left: 160px;
     top: 0px;
 }
