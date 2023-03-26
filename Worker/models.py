@@ -5,12 +5,12 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class Worker(models.Model):
-    username = models.CharField(verbose_name="Логин", max_length=255, unique=True, blank=True, null=True, default=None)
+class Profile(models.Model):
+    username = models.OneToOneField(User, verbose_name="Логин", on_delete=models.CASCADE)
     surname = models.CharField(verbose_name="Фамилия", max_length=255, blank=True, null=True, default=None)
     first_name = models.CharField(verbose_name="Имя", max_length=255, blank=True, null=True, default=None)
     last_name = models.CharField(verbose_name="Отчество", max_length=255, blank=True, null=True, default=None)
-    password = models.CharField(verbose_name="Пароль", max_length=255, blank=True, null=True, default=None)
+    # password = models.CharField(verbose_name="Пароль", max_length=255, blank=True, null=True, default=None)
     email = models.EmailField(verbose_name="Электронная почта", blank=True, null=True, default=None)
     position = models.CharField(verbose_name="Должность", max_length=255, blank=True, null=True, default=None)
     experience = models.CharField(verbose_name="Опыт работы", max_length=255, blank=True, null=True, default=None)
@@ -22,6 +22,17 @@ class Worker(models.Model):
 
     def __str__(self):
         return self.surname + " " + self.first_name
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 
 class Benefit(models.Model):
