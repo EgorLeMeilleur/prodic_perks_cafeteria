@@ -1,5 +1,5 @@
 {% block content %}
-  <h2>Dashboard</h2>
-  <p>Welcome, {{ user.username }}!</p>
-  <a href="{% url 'logout' %}">Logout</a>
+  <h2>Личный кабинет</h2>
+  <p>Добро пожаловать, {{ user.username }}!</p>
+  <a href="{% url 'logout' %}">Выйти из аккаунта</a>
 {% endblock %}
