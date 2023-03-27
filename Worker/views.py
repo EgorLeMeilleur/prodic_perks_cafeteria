@@ -7,7 +7,6 @@ from Worker.forms import LoginForm
 from django.urls import reverse
 
 
-
 def home(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -17,16 +16,18 @@ def home(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(reverse('logged'))
+                return redirect(reverse('personal_cabinet'))
             else:
                 form.add_error(None, 'Incorrect username or password')
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
+
 @login_required
-def logged(request):
+def personal_cabinet(request):
     return render(request, 'logged.html')
+
 
 @login_required
 def logout(request):
