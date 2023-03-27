@@ -29,10 +29,11 @@
                                 <div class="footer-auth">Авторизация</div>
                                 <div class="footer-text">Логин</div>
                                 <div class="footer-text">Пароль</div>
-                                <form method="post" action="personal_cabinet/">
+                                <form method="post">
                                 {% csrf_token %}
-                                <input class="login" type="login" maxlength="255" size="40" name="login">
-                                <input class="password" type="password" maxlength="255" size="40" name="password">
+                                    {{ form }}
+{#                                <input class="login" type="login" maxlength="255" size="40" name="login">#}
+{#                                <input class="password" type="password" maxlength="255" size="40" name="password">#}
                                 <button type="submit" class="new">Войти</button>
                                 </form>
                             </div>
