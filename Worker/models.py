@@ -10,7 +10,6 @@ class Profile(models.Model):
     surname = models.CharField(verbose_name="Фамилия", max_length=255, blank=True, null=True, default=None)
     first_name = models.CharField(verbose_name="Имя", max_length=255, blank=True, null=True, default=None)
     last_name = models.CharField(verbose_name="Отчество", max_length=255, blank=True, null=True, default=None)
-    # password = models.CharField(verbose_name="Пароль", max_length=255, blank=True, null=True, default=None)
     email = models.EmailField(verbose_name="Электронная почта", blank=True, null=True, default=None)
     position = models.CharField(verbose_name="Должность", max_length=255, blank=True, null=True, default=None)
     experience = models.CharField(verbose_name="Опыт работы", max_length=255, blank=True, null=True, default=None)
@@ -32,14 +31,3 @@ class Profile(models.Model):
 #def save_user_profile(sender, instance, **kwargs):
 #    instance.profile.save()
 
-#class Benefit(models.Model):
-#    name = models.CharField(verbose_name="Название", max_length=255, unique=True, blank=True, null=True, default=None)
-#    price = models.DecimalField(verbose_name="Цена", max_digits=1000, decimal_places=2, blank=True, null=True, default=None)
-#    city = models.CharField(verbose_name="Город", max_length=255, blank=True, null=True, default=None)
-
-#    class Meta:
-#        verbose_name = 'Льгота'
-#        verbose_name_plural = 'Льготы'
-
-#    def __str__(self):
-#        return self.name
