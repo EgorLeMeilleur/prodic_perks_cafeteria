@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
+from Benefits.models import Benefit, Purchase, Wish
 from Worker.forms import LoginForm
 from django.urls import reverse
 
@@ -26,7 +27,33 @@ def home(request):
 
 @login_required
 def personal_cabinet(request):
-    return render(request, 'logged.html')
+    benefits = Benefit.objects.all()
+    bought_benefits = Purchase.objects.filter(user=request.user.profile)
+    wished_benefits = Wish.objects.filter(user=request.user.profile)
+    param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
+    return render(request, 'logged.html', {'param': param})
+
+@login_required
+def bought(request, pk):
+    user_id = request.user.profile
+    benefit = get_object_or_404(Benefit, pk=pk)
+    if user_id.balance >= benefit.price:
+        user_id.balance -= benefit.price
+        new_obj = Purchase(user=user_id, benefit=benefit)
+        if benefit in Wish.objects.all():
+            Wish.delete(benefit)
+        new_obj.save()
+        user_id.save()
+    return redirect('personal_cabinet')
+
+
+@login_required
+def wished(request, pk):
+    user_id = request.user.profile
+    benefit = get_object_or_404(Benefit, pk=pk)
+    new_obj = Wish(user=user_id, benefit=benefit)
+    new_obj.save()
+    return redirect('personal_cabinet')
 
 
 @login_required
