@@ -22,7 +22,7 @@ class Benefit(models.Model):
 
 
 class Purchase(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='purchases')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='purchases')
     benefit = models.ForeignKey(Benefit, on_delete=models.CASCADE, related_name='purchases')
     date = models.DateTimeField(auto_now_add=True)
 
@@ -35,7 +35,7 @@ class Purchase(models.Model):
 
 
 class Wish(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='wishes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishes')
     benefit = models.ForeignKey(Benefit, on_delete=models.CASCADE, related_name='wishes')
 
     def __str__(self):

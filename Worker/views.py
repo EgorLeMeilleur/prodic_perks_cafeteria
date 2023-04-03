@@ -28,20 +28,20 @@ def home(request):
 @login_required
 def personal_cabinet(request):
     benefits = Benefit.objects.all()
-    bought_benefits = Purchase.objects.filter(user=request.user.profile)
-    wished_benefits = Wish.objects.filter(user=request.user.profile)
+    bought_benefits = Purchase.objects.filter(user=request.user)
+    wished_benefits = Wish.objects.filter(user=request.user)
     param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
     return render(request, 'logged.html', {'param': param})
 
 @login_required
 def bought(request, pk):
-    user_id = request.user.profile
+    user_id = request.user
     benefit = get_object_or_404(Benefit, pk=pk)
-    if user_id.balance >= benefit.price:
-        user_id.balance -= benefit.price
+    if user_id.profile.balance >= benefit.price:
+        user_id.profile.balance -= benefit.price
         new_obj = Purchase(user=user_id, benefit=benefit)
-        if benefit in Wish.objects.all():
-            Wish.delete(benefit)
+        if Wish.objects.filter(user=user_id, benefit=benefit).exists():
+            Wish.objects.filter(user=user_id, benefit=benefit).delete()
         new_obj.save()
         user_id.save()
     return redirect('personal_cabinet')
@@ -49,12 +49,24 @@ def bought(request, pk):
 
 @login_required
 def wished(request, pk):
-    user_id = request.user.profile
+    user_id = request.user
     benefit = get_object_or_404(Benefit, pk=pk)
     new_obj = Wish(user=user_id, benefit=benefit)
     new_obj.save()
     return redirect('personal_cabinet')
 
+
+@login_required
+def wished_remove(request, pk):
+    user_id = request.user
+    benefit = get_object_or_404(Benefit, pk=pk)
+    Wish.objects.filter(user=user_id, benefit=benefit).delete()
+    return redirect('personal_cabinet')
+
+@login_required
+def delete_benefit(request, pk):
+    Benefit.objects.filter(pk=pk).delete()
+    return redirect('personal_cabinet')
 
 @login_required
 def logout(request):

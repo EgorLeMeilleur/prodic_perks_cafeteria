@@ -8,12 +8,22 @@
         <li>{{ item.name }} {{ item.price }}</li>
         <form method="post" action="{% url 'bought' item.pk %}">
         {% csrf_token %}
-            <input type="submit" value="Купить">
+            {% if user.profile.balance < item.price %}
+                <input type="submit" value="Купить" disabled>
+            {% else %}
+                <input type="submit" value="Купить">
+            {% endif %}
         </form>
         <form method="post" action="{% url 'wished' item.pk %}">
         {% csrf_token %}
             <input type="submit" value="В список желаний">
         </form>
+        {% if user.profile.position == 'hr' %}
+            <form method="post" action="{% url 'delete_benefit' item.pk %}">
+            {% csrf_token %}
+            <input type="submit" value="Удалить льготу">
+            </form>
+        {% endif %}
         {% endfor %}
     </ul>
     <p>Купленные льготы:</p>
@@ -26,6 +36,10 @@
     <ul>
     {% for item in param.wished_benefits %}
         <li>{{ item.benefit.name }}</li>
+        <form method="post" action="{% url 'wished_remove' item.benefit.pk %}">
+        {% csrf_token %}
+            <input type="submit" value="Убрать из списка желаний">
+        </form>
         {% endfor %}
     </ul>
   <a href="{% url 'logout' %}">Выйти из аккаунта</a>
