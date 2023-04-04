@@ -51,8 +51,9 @@ def bought(request, pk):
 def wished(request, pk):
     user_id = request.user
     benefit = get_object_or_404(Benefit, pk=pk)
-    new_obj = Wish(user=user_id, benefit=benefit)
-    new_obj.save()
+    if not Wish.objects.filter(user=user_id, benefit=benefit).exists():
+        new_obj = Wish(user=user_id, benefit=benefit)
+        new_obj.save()
     return redirect('personal_cabinet')
 
 
@@ -67,6 +68,9 @@ def wished_remove(request, pk):
 def delete_benefit(request, pk):
     Benefit.objects.filter(pk=pk).delete()
     return redirect('personal_cabinet')
+
+#def delete_worker(request, pk):
+#    User.objects.filter.
 
 @login_required
 def logout(request):
