@@ -8,6 +8,10 @@ from Worker.forms import LoginForm
 from django.urls import reverse
 
 
+def beginning_page(request):
+    return render(request, 'index.html')
+
+
 def home(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)

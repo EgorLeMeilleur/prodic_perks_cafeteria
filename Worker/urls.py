@@ -9,5 +9,6 @@ urlpatterns = [
     path('bought/<int:pk>/', views.bought, name='bought'),
     path('wished/<int:pk>/', views.wished, name='wished'),
     path('wished_remove/<int:pk>/', views.wished_remove, name='wished_remove'),
-    path('delete_benefit/<int:pk>/', views.delete_benefit, name='delete_benefit')
+    path('delete_benefit/<int:pk>/', views.delete_benefit, name='delete_benefit'),
+    path('', views.beginning_page, name='beginning_page')
 ]
