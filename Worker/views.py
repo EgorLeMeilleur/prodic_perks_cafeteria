@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 
 from Benefits.models import Benefit, Purchase, Wish
@@ -26,9 +27,10 @@ def home(request):
 
 @login_required
 def personal_cabinet(request):
-    benefits = Benefit.objects.all()
-    bought_benefits = Purchase.objects.filter(user=request.user)
-    wished_benefits = Wish.objects.filter(user=request.user)
+    user = request.user
+    benefits = Benefit.objects.filter(city=user.profile.city)
+    bought_benefits = Purchase.objects.filter(user=user)
+    wished_benefits = Wish.objects.filter(user=user)
     param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
     return render(request, 'logged.html', {'param': param})
 
@@ -70,8 +72,10 @@ def delete_benefit(request, pk):
     Benefit.objects.filter(pk=pk).delete()
     return redirect('personal_cabinet')
 
-# def delete_worker(request, pk):
-#    User.objects.filter.
+
+@login_required()
+def delete_worker(request, pk):
+    User.objects.get(pk=pk).delete()
 
 
 @login_required

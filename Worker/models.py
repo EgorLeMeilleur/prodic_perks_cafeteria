@@ -14,6 +14,7 @@ class Profile(models.Model):
     position = models.CharField(verbose_name="Должность", max_length=255, blank=True, null=True, default=None)
     experience = models.CharField(verbose_name="Опыт работы", max_length=255, blank=True, null=True, default=None)
     balance = models.DecimalField(verbose_name="Баланс", max_digits=10000, decimal_places=2, blank=True, null=True, default=None)
+    city = models.CharField(verbose_name="Город", max_length=255, blank=True, null=True, default=None)
 
     class Meta:
         verbose_name = 'Cотрудник'
