@@ -86,6 +86,10 @@
     font-weight:400px;
 }
 
+#img-logout {
+    margin-left:10px;
+}
+
 .balance {
     display:flex;
     flex-direction: column;
