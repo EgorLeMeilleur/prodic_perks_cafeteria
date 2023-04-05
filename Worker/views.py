@@ -28,11 +28,15 @@ def home(request):
 @login_required
 def personal_cabinet(request):
     user = request.user
-    benefits = Benefit.objects.filter(city=user.profile.city)
-    bought_benefits = Purchase.objects.filter(user=user)
-    wished_benefits = Wish.objects.filter(user=user)
-    param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
-    return render(request, 'logged.html', {'param': param})
+    if user.profile.position == 'hr':
+        return render(request, 'logged_hr.html')
+    else:
+        return render(request, 'logged_worker.html')
+    # benefits = Benefit.objects.filter(city=user.profile.city)
+    # bought_benefits = Purchase.objects.filter(user=user)
+    # wished_benefits = Wish.objects.filter(user=user)
+    # param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
+    # return render(request, 'logged.html', {'param': param})
 
 
 @login_required
@@ -76,8 +80,14 @@ def delete_benefit(request, pk):
 @login_required()
 def delete_worker(request, pk):
     User.objects.get(pk=pk).delete()
+    return redirect('personal_cabinet')
+
+
+# @login_required
+# def sort_by_(request):
+#     return redirect(reverse('home'))
 
 
 @login_required
 def logout(request):
-    return redirect(reverse('home'))
+    return redirect('home')
