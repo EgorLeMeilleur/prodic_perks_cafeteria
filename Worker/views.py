@@ -88,6 +88,12 @@ def wished_remove(request, pk):
 
 
 @login_required
+def employees_show(request):
+    employees = User.objects.all()
+    return render(request, 'employees.html', {'employees': employees})
+
+
+@login_required
 def delete_benefit(request, pk):
     Benefit.objects.filter(pk=pk).delete()
     return redirect('benefits_show')
