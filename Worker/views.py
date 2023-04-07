@@ -36,11 +36,22 @@ def personal_cabinet(request):
         return render(request, 'logged_hr.html')
     else:
         return render(request, 'logged_worker.html')
-    # benefits = Benefit.objects.filter(city=user.profile.city)
     # bought_benefits = Purchase.objects.filter(user=user)
-    # wished_benefits = Wish.objects.filter(user=user)
     # param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
-    # return render(request, 'logged.html', {'param': param})
+
+
+@login_required
+def wished_show(request):
+    user = request.user
+    wished_benefits = Wish.objects.filter(user=user)
+    return render(request, 'wished_benefits.html', {'benefits': wished_benefits})
+
+
+@login_required
+def benefits_show(request):
+    user = request.user
+    benefits = Benefit.objects.filter(city=user.profile.city)
+    return render(request, 'benefits.html', {'benefits': benefits})
 
 
 @login_required

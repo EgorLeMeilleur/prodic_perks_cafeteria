@@ -1,0 +1,13 @@
+{% extends 'logged_hr.html' %}
+{% block content %}
+    <p>Желаемые льготы:</p>
+    <ul>
+    {% for item in benefits %}
+        <li>{{ item.benefit.name }}</li>
+        <form method="post" action="{% url 'wished_remove' item.benefit.pk %}">
+        {% csrf_token %}
+            <input type="submit" value="Убрать из списка желаний">
+        </form>
+        {% endfor %}
+    </ul>
+{% endblock %}

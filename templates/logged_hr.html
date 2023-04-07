@@ -88,9 +88,9 @@
         </div>
         <div class = "wrapper">
             <div class = "nav-rect2">
-                <a id = "pers-cab-ref" href = "logged_hr.html"> Личный кабинет</a>
-                <a href = "">Список желаний</a>
-                <a href = "">Каталог льгот</a>
+                <a id = "pers-cab-ref" href = {% url 'personal_cabinet' %}> Личный кабинет</a>
+                <a href = {% url 'wished_show' %}>Список желаний</a>
+                <a href = {% url 'benefits_show' %}>Каталог льгот</a>
             </div>
             {% block content %}
             <div class="content">

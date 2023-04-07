@@ -1,0 +1,26 @@
+{% extends 'logged_hr.html' %}
+{% block content %}
+    <ul>
+    {% for item in benefits  %}
+        <li>{{ item.name }} {{ item.price }}</li>
+        <form method="post" action="{% url 'bought' item.pk %}">
+        {% csrf_token %}
+            {% if user.profile.balance < item.price %}
+                <input type="submit" value="Купить" disabled>
+            {% else %}
+                <input type="submit" value="Купить">
+            {% endif %}
+        </form>
+        <form method="post" action="{% url 'wished' item.pk %}">
+        {% csrf_token %}
+            <input type="submit" value="В список желаний">
+        </form>
+        {% if user.profile.position == 'hr' %}
+            <form method="post" action="{% url 'delete_benefit' item.pk %}">
+            {% csrf_token %}
+           <input type="submit" value="Удалить льготу">
+           </form>
+        {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
