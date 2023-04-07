@@ -1,4 +1,12 @@
-{% extends 'logged_hr.html' %}
+{% extends 'logged_worker.html' %}
+{% block nav %}
+        <div class = "wrapper">
+            <div class = "nav-rect2">
+                <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
+                <a id = "pers-cab-ref" href = {% url 'wished_show' %}>Список желаний</a>
+                <a href = {% url 'benefits_show' %}>Каталог льгот</a>
+            </div>
+        {% endblock %}
 {% block content %}
     <p>Желаемые льготы:</p>
     <ul>
@@ -10,4 +18,5 @@
         </form>
         {% endfor %}
     </ul>
+    </div>
 {% endblock %}

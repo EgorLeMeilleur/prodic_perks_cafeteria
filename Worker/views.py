@@ -32,10 +32,11 @@ def home(request):
 @login_required
 def personal_cabinet(request):
     user = request.user
+    bought_benefits = Purchase.objects.filter(user=user)
     if user.profile.position == 'hr':
-        return render(request, 'logged_hr.html')
+        return render(request, 'logged_hr.html', {'benefits': bought_benefits})
     else:
-        return render(request, 'logged_worker.html')
+        return render(request, 'logged_worker.html', {'benefits': bought_benefits})
     # bought_benefits = Purchase.objects.filter(user=user)
     # param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
 
@@ -75,7 +76,7 @@ def wished(request, pk):
     if not Wish.objects.filter(user=user_id, benefit=benefit).exists():
         new_obj = Wish(user=user_id, benefit=benefit)
         new_obj.save()
-    return redirect('personal_cabinet')
+    return redirect('wished_show')
 
 
 @login_required
@@ -83,13 +84,13 @@ def wished_remove(request, pk):
     user_id = request.user
     benefit = get_object_or_404(Benefit, pk=pk)
     Wish.objects.filter(user=user_id, benefit=benefit).delete()
-    return redirect('personal_cabinet')
+    return redirect('wished_show')
 
 
 @login_required
 def delete_benefit(request, pk):
     Benefit.objects.filter(pk=pk).delete()
-    return redirect('personal_cabinet')
+    return redirect('benefits_show')
 
 
 @login_required()

@@ -1,8 +1,16 @@
-{% extends 'logged_hr.html' %}
+{% extends 'logged_worker.html' %}
+{% block nav %}
+        <div class = "wrapper">
+            <div class = "nav-rect2">
+                <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
+                <a href = {% url 'wished_show' %}>Список желаний</a>
+                <a id = "pers-cab-ref" href = {% url 'benefits_show' %}>Каталог льгот</a>
+            </div>
+        {% endblock %}
 {% block content %}
     <ul>
     {% for item in benefits  %}
-        <li>{{ item.name }} {{ item.price }}</li>
+        <li>{{ item.name }} {{ item.price }} {{ item.description }}</li>
         <form method="post" action="{% url 'bought' item.pk %}">
         {% csrf_token %}
             {% if user.profile.balance < item.price %}
@@ -23,4 +31,5 @@
         {% endif %}
         {% endfor %}
     </ul>
+    </div>
 {% endblock %}
