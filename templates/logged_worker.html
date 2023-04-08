@@ -75,9 +75,11 @@
         <div class="nav-rect">
             <div class="employee-info">
                 <img src = "{% static 'Worker/img/profile_icon.png' %}" height = 30px>
+                {% block position %}
                 <p id = "employee-name">{{ user.profile.surname}} {{ user.profile.first_name }} {{ user.profile.last_name }}<br>
                     (работник)
                 </p>
+                {% endblock %}
                 <img id = "img-logout" src = "{% static 'Worker/img/logout.png' %}" height = 30px">
                 <a href="{% url 'logout' %}" style="color:white">Выйти из аккаунта</a>
             </div>
