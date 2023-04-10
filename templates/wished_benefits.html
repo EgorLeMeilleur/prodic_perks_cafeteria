@@ -7,17 +7,16 @@
                 <a id = "pers-cab-ref" href = {% url 'wished_show' %}>Список желаний</a>
                 <a href = {% url 'benefits_show' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
-        {% endblock %}
-{% block content %}
-    <p>Желаемые льготы:</p>
-    <ul>
-    {% for item in benefits %}
-        <li>{{ item.benefit.name }}</li>
-        <form method="post" action="{% url 'wished_remove' item.benefit.pk %}">
-        {% csrf_token %}
-            <input type="submit" value="Убрать из списка желаний">
-        </form>
-        {% endfor %}
-    </ul>
-    </div>
+
+            <p>Желаемые льготы:</p>
+            <ul>
+            {% for item in benefits %}
+                <li>{{ item.benefit.name }}</li>
+                <form method="post" action="{% url 'wished_remove' item.benefit.pk %}">
+                {% csrf_token %}
+                    <input type="submit" value="Убрать из списка желаний">
+                </form>
+                {% endfor %}
+            </ul>
+        </div>
 {% endblock %}
