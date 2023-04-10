@@ -75,9 +75,11 @@
         <div class="nav-rect">
             <div class="employee-info">
                 <img src = "{% static 'Worker/img/profile_icon.png' %}" height = 30px>
+                {% block position %}
                 <p id = "employee-name">{{ user.profile.surname}} {{ user.profile.first_name }} {{ user.profile.last_name }}<br>
                     (работник)
                 </p>
+                {% endblock %}
                 <img id = "img-logout" src = "{% static 'Worker/img/logout.png' %}" height = 30px">
                 <a href="{% url 'logout' %}" style="color:white">Выйти из аккаунта</a>
             </div>
@@ -88,11 +90,14 @@
         </div>
         {% block nav %}
         <div class = "wrapper">
+            <script src="{% static 'Worker/js/fq.js'%}"></script>
             <div class = "nav-rect2">
                 <a id = "pers-cab-ref" href = {% url 'personal_cabinet' %}> Личный кабинет</a>
                 <a href = {% url 'wished_show' %}>Список желаний</a>
                 <a href = {% url 'benefits_show' %}>Каталог льгот</a>
+                <a href="#" id="open_pop_up">(FAQ: как пользоваться каталогом?)</a>
             </div>
+
         {% endblock %}
             {% block content %}
             <div class="content">
@@ -110,10 +115,8 @@
                     {% endfor %}
                 </ul>
             </div>
-            {% block workers %}
             {% endblock %}
         </div>
-            {% endblock %}
     </div>
 </body>
 </html>

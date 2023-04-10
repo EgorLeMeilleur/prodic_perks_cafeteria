@@ -33,7 +33,7 @@ def home(request):
 def personal_cabinet(request):
     user = request.user
     bought_benefits = Purchase.objects.filter(user=user)
-    if user.profile.position == 'hr':
+    if user.profile.position == 'hr' or user.profile.position == 'HR':
         return render(request, 'logged_hr.html', {'benefits': bought_benefits})
     else:
         return render(request, 'logged_worker.html', {'benefits': bought_benefits})
@@ -101,8 +101,8 @@ def delete_benefit(request, pk):
 
 @login_required()
 def delete_worker(request, pk):
-    User.objects.get(pk=pk).delete()
-    return redirect('personal_cabinet')
+    User.objects.filter(pk=pk).delete()
+    return redirect('employees_show')
 
 
 # @login_required
