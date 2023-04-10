@@ -10,6 +10,12 @@
         <ul>
             {% for item in employees %}
                 <li>{{ item.profile.surname }} {{ item.profile.first_name }}</li>
+                {% if item.pk != user.pk %}
+                    <form method="post" action="{% url 'delete_worker' item.profile.pk %}">
+                    {% csrf_token %}
+                        <input type="submit" value="Удалить сотрудника">
+                    </form>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
