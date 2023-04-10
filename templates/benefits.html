@@ -10,7 +10,7 @@
         {% endblock %}
 {% block content %}
     <ul>
-    {% for item in benefits  %}
+    {% for item in benefits %}
         <li>{{ item.name }} {{ item.price }} {{ item.description }}</li>
         <form method="post" action="{% url 'bought' item.pk %}">
         {% csrf_token %}
