@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 
+from Benefits.forms import BenefitsForm
 from Benefits.models import Benefit, Purchase, Wish
-from Worker.forms import LoginForm
+from Worker.forms import LoginForm, ProfileForm, UserForm
 from django.urls import reverse
 
 
@@ -50,7 +52,6 @@ def wished_show(request):
 
 @login_required
 def benefits_show(request):
-    user = request.user
     benefits = Benefit.objects.all()
     return render(request, 'benefits.html', {'benefits': benefits})
 
@@ -105,9 +106,22 @@ def delete_worker(request, pk):
     return redirect('employees_show')
 
 
-# @login_required
-# def sort_by_(request):
-#     return redirect(reverse('home'))
+@login_required
+def sort_by_сity(request):
+    benefits = Benefit.objects.all().order_by('city', 'price')
+    return render(request, 'benefits.html', {'benefits': benefits})
+
+
+@login_required
+def sort_by_popularity(request):
+    benefits = Benefit.objects.annotate(num_purchases=Count('purchases')).order_by('-num_purchases')
+    return render(request, 'benefits.html', {'benefits': benefits})
+
+
+@login_required
+def sort_by_price_asc(request):
+    benefits = Benefit.objects.all().order_by('price')
+    return render(request, 'benefits.html', {'benefits': benefits})
 
 
 @login_required
@@ -117,9 +131,34 @@ def logout(request):
 
 @login_required
 def add_employee(request):
-    return render(request, 'add_employee.html')
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if profile_form.is_valid() and user_form.is_valid():
+            user = user_form.save()
+            user.profile.surname = profile_form.cleaned_data['surname']
+            user.profile.first_name = profile_form.cleaned_data['first_name']
+            user.profile.last_name = profile_form.cleaned_data['last_name']
+            user.profile.position = profile_form.cleaned_data['position']
+            user.profile.experience = profile_form.cleaned_data['experience']
+            user.profile.city = profile_form.cleaned_data['city']
+            user.profile.balance = profile_form.cleaned_data['balance']
+            user.profile.email = profile_form.cleaned_data['email']
+            user.save()
+            return redirect('employees_show')
+    else:
+        profile_form = ProfileForm()
+        user_form = UserForm()
+    return render(request, 'add_employee.html', {'profile_form': profile_form, 'user_form': user_form})
 
 
 @login_required
 def add_benefit(request):
-    return render(request, 'add_benefit.html')
+    if request.method == 'POST':
+        form = BenefitsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('benefits_show')
+    else:
+        form = BenefitsForm()
+    return render(request, 'add_benefit.html', {'form': form})

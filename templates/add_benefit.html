@@ -8,5 +8,15 @@
                 <a id = "pers-cab-ref" href = {% url 'add_benefit' %}>Добавить льготу</a>
                 <a href = {% url 'benefits_show' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
+            <div class="content">
+                <div class = "employee-data">
+                    <p>Название<br><br>Цена<br><br>Город<br><br>Описание</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit">Создать новую льготу</button>
+                    </form>
+                </div>
+            </div>
         </div>
 {% endblock %}

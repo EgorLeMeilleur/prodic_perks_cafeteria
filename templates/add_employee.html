@@ -7,5 +7,17 @@
                 <a href = {% url 'employees_show' %}>Список сотрудников</a>
                 <a id = "pers-cab-ref" href = {% url 'add_employee' %}>Добавить сотрудника</a>
             </div>
+            <div class="content">
+                <div class = "employee-data">
+                    <p>Логин<br><br>Пароль<br><br>Фамилия<br><br>Имя<br><br>Отчество<br><br>Должность<br><br>Стаж<br><br>
+                        Город<br><br>Баланс<br><br>Email</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ user_form }}
+                        {{ profile_form }}
+                        <button type="submit">Создать нового работника</button>
+                    </form>
+                </div>
+            </div>
         </div>
 {% endblock %}
