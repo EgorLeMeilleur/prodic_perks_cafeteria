@@ -14,5 +14,7 @@ urlpatterns = [
     path('personal_cabinet/list_of_wishes', views.wished_show, name='wished_show'),
     path('personal_cabinet/list_of_benefits', views.benefits_show, name='benefits_show'),
     path('personal_cabinet/list_of_employees', views.employees_show, name='employees_show'),
+    path('add_employee/', views.add_employee, name='add_employee'),
+    path('add_benefit/', views.add_benefit, name='add_benefit'),
     path('', views.beginning_page, name='beginning_page')
 ]

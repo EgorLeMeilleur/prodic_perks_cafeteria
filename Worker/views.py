@@ -51,7 +51,7 @@ def wished_show(request):
 @login_required
 def benefits_show(request):
     user = request.user
-    benefits = Benefit.objects.filter(city=user.profile.city)
+    benefits = Benefit.objects.all()
     return render(request, 'benefits.html', {'benefits': benefits})
 
 
@@ -113,3 +113,13 @@ def delete_worker(request, pk):
 @login_required
 def logout(request):
     return redirect('home')
+
+
+@login_required
+def add_employee(request):
+    return render(request, 'add_employee.html')
+
+
+@login_required
+def add_benefit(request):
+    return render(request, 'add_benefit.html')

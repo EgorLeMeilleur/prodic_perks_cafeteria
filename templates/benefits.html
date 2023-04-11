@@ -5,14 +5,17 @@
                 <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
                 <a id = "pers-cab-ref" href = {% url 'benefits_show' %}>Каталог льгот</a>
                 <a href = {% url 'wished_show' %}>Список желаний</a>
+                {% if user.profile.position == 'hr' or user.profile.position == 'HR'  %}
+                    <a href = {% url 'add_benefit' %}>Добавить льготу</a>
+                {% endif %}
                 <a href = {% url 'benefits_show' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
         <ul>
         {% for item in benefits %}
-            <li>{{ item.name }} {{ item.price }} {{ item.description }}</li>
+            <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>
             <form method="post" action="{% url 'bought' item.pk %}">
             {% csrf_token %}
-                {% if user.profile.balance < item.price %}
+                {% if user.profile.balance < item.price or user.profile.city != item.city %}
                     <input type="submit" value="Купить" disabled>
                 {% else %}
                     <input type="submit" value="Купить">

@@ -1,0 +1,11 @@
+{% extends 'logged_worker.html' %}
+{% block nav %}
+        <div class = "wrapper">
+            <div class = "nav-rect2">
+                <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
+                <a href = {% url 'benefits_show' %}>Каталог льгот</a>
+                <a href = {% url 'employees_show' %}>Список сотрудников</a>
+                <a id = "pers-cab-ref" href = {% url 'add_employee' %}>Добавить сотрудника</a>
+            </div>
+        </div>
+{% endblock %}

@@ -5,6 +5,9 @@
                 <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
                 <a href = {% url 'benefits_show' %}>Каталог льгот</a>
                 <a id = "pers-cab-ref" href = {% url 'wished_show' %}>Список желаний</a>
+                {% if user.profile.position == 'hr' or user.profile.position == 'HR'  %}
+                    <a href = {% url 'add_benefit' %}>Добавить льготу</a>
+                {% endif %}
                 <a href = {% url 'benefits_show' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
 
