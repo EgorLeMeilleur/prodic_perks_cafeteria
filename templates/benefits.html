@@ -10,6 +10,21 @@
                 {% endif %}
                 <a href = {% url 'benefits_show' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
+        <div class="content">
+            <p>Сортировка</p>
+            <form method="post" action="{% url 'sort_by_popularity' %}">
+                {% csrf_token %}
+                <input type="submit" value="по популярности">
+            </form>
+            <form method="post" action="{% url 'sort_by_price' %}">
+                {% csrf_token %}
+                <input type="submit" value="по цене">
+            </form>
+            <form method="post" action="{% url 'sort_by_city' %}">
+                {% csrf_token %}
+                <input type="submit" value="по городу">
+            </form>
+        </div>
         <ul>
         {% for item in benefits %}
             <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>

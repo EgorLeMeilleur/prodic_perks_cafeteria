@@ -16,5 +16,8 @@ urlpatterns = [
     path('personal_cabinet/list_of_employees', views.employees_show, name='employees_show'),
     path('add_employee/', views.add_employee, name='add_employee'),
     path('add_benefit/', views.add_benefit, name='add_benefit'),
+    path('sort_by_price/', views.sort_by_price_asc, name="sort_by_price"),
+    path('sort_by_city/', views.sort_by_сity, name='sort_by_city'),
+    path('sort_by_popularity/', views.sort_by_popularity, name='sort_by_popularity'),
     path('', views.beginning_page, name='beginning_page')
 ]
