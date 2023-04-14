@@ -8,7 +8,7 @@
                 {% if user.profile.position == 'hr' or user.profile.position == 'HR'  %}
                     <a href = {% url 'add_benefit' %}>Добавить льготу</a>
                 {% endif %}
-                <a href = {% url 'benefits_show' %}>(FAQ: как пользоваться каталогом?)</a>
+                <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
 
             <p>Желаемые льготы:</p>

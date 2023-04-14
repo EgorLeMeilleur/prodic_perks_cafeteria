@@ -162,3 +162,8 @@ def add_benefit(request):
     else:
         form = BenefitsForm()
     return render(request, 'add_benefit.html', {'form': form})
+
+
+@login_required
+def faq(request):
+    return render(request, 'faq.html')
