@@ -20,5 +20,6 @@ urlpatterns = [
     path('sort_by_city/', views.sort_by_сity, name='sort_by_city'),
     path('sort_by_popularity/', views.sort_by_popularity, name='sort_by_popularity'),
     path('faq/', views.faq, name='faq'),
-    path('', views.beginning_page, name='beginning_page')
+    path('', views.beginning_page, name='beginning_page'),
+    path('export/', views.export_users_xls, name='export_users_xls')
 ]

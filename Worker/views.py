@@ -1,13 +1,17 @@
+import xlwt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from Benefits.forms import BenefitsForm
 from Benefits.models import Benefit, Purchase, Wish
 from Worker.forms import LoginForm, ProfileForm, UserForm
 from django.urls import reverse
+
+from Worker.models import Profile
 
 
 def beginning_page(request):
@@ -163,6 +167,33 @@ def add_benefit(request):
         form = BenefitsForm()
     return render(request, 'add_benefit.html', {'form': form})
 
+
+@login_required
+def export_users_xls(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="users.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Users')
+
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['First name', 'Surname', 'Username', 'Email address']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    font_style = xlwt.XFStyle()
+    rows = Profile.objects.all().values_list('first_name', 'surname', 'username', 'email')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
+    return response
 
 @login_required
 def faq(request):
