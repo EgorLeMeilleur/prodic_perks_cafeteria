@@ -195,6 +195,7 @@ def export_users_xls(request):
     wb.save(response)
     return response
 
+
 @login_required
 def faq(request):
     return render(request, 'faq.html')

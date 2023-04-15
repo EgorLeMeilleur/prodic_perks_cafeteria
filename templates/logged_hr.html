@@ -5,6 +5,7 @@
                 <a id = "pers-cab-ref" href = {% url 'personal_cabinet' %}> Личный кабинет</a>
                 <a href = {% url 'benefits_show' %}>Каталог льгот</a>
                 <a href = {% url 'employees_show' %}>Список сотрудников</a>
+                <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
             <div class="content">
                 <div class = "employee-data">
@@ -14,12 +15,7 @@
                         {{ user.profile.position }}<br><br>{{ user.profile.experience }}<br><br>
                         {{ user.profile.city }}</p>
                 </div>
-                <div class = "bonuses">Льготы</div>
-                <ul>
-                    {% for item in benefits %}
-                        <li>{{ item.benefit.name }}</li>
-                    {% endfor %}
-                </ul>
+
             </div>
         </div>
 {% endblock %}
