@@ -181,12 +181,12 @@ def export_users_xls(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['First name', 'Surname', 'Username', 'Email address']
+    columns = ['First name', 'Surname', 'Position', 'Email address']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
     font_style = xlwt.XFStyle()
-    rows = Profile.objects.all().values_list('first_name', 'surname', 'username', 'email')
+    rows = Profile.objects.all().values_list('first_name', 'surname', 'position', 'email')
     for row in rows:
         row_num += 1
         for col_num in range(len(row)):
