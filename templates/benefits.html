@@ -10,7 +10,9 @@
                 {% if user.profile.position == 'hr' or user.profile.position == 'HR'  %}
                     <a href = {% url 'add_benefit' %}>Добавить льготу</a>
                 {% endif %}
-                <a href = {% url 'employees_show' %}>Список сотрудников</a>
+                {% if user.profile.position == "HR" or user.profile.position == "hr" %}
+                    <a href = {% url 'employees_show' %}>Список сотрудников</a>
+                {% endif %}
                 <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
         <div class="content">
@@ -33,15 +35,19 @@
             <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>
             <form method="post" action="{% url 'bought' item.pk %}">
             {% csrf_token %}
+            {% if user.profile.position != "HR" and user.profile.position != "hr" %}
                 {% if user.profile.balance < item.price or user.profile.city != item.city %}
                     <input type="submit" value="Купить" disabled>
                 {% else %}
                     <input type="submit" value="Купить">
                 {% endif %}
+            {% endif %}
             </form>
             <form method="post" action="{% url 'wished' item.pk %}">
             {% csrf_token %}
-                <input type="submit" value="В список желаний">
+                {% if user.profile.position != "HR" and user.profile.position != "hr" %}
+                    <input type="submit" value="В список желаний">
+                {% endif %}
             </form>
             {% if user.profile.position == 'hr' %}
                 <form method="post" action="{% url 'delete_benefit' item.pk %}">

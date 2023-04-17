@@ -1,4 +1,5 @@
 import xlwt
+import openpyxl
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -170,29 +171,30 @@ def add_benefit(request):
 
 @login_required
 def export_users_xls(request):
-    response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="users.xls"'
+    purchases_by_user = Purchase.objects.all().select_related('User', 'Benefit').order_by('user__username').values('user__username', 'benefit__name', 'date')
+    workbook = openpyxl.Workbook()
 
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Users')
+    worksheet = workbook.active
+    worksheet.title = 'Purchases'
 
-    row_num = 0
+    worksheet['A1'] = 'Сотрудник'
+    worksheet['B1'] = 'Льгота'
+    worksheet['C1'] = 'Дата'
 
-    font_style = xlwt.XFStyle()
-    font_style.font.bold = True
-
-    columns = ['First name', 'Surname', 'Position', 'Email address']
-    for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style)
-
-    font_style = xlwt.XFStyle()
-    rows = Profile.objects.all().values_list('first_name', 'surname', 'position', 'email')
-    for row in rows:
+    row_num = 2
+    for purchase in purchases_by_user:
+        worksheet.cell(row=row_num, column=1, value=purchase['user__username'])
+        worksheet.cell(row=row_num, column=2, value=purchase['benefit__name'])
+        worksheet.cell(row=row_num, column=3, value=purchase['date'].strftime('%Y-%m-%d %H:%M:%S'))
         row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
 
-    wb.save(response)
+    worksheet.column_dimensions['A'].width = 20
+    worksheet.column_dimensions['B'].width = 50
+    worksheet.column_dimensions['C'].width = 20
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=purchases.xlsx'
+    workbook.save(response)
     return response
 
 
