@@ -141,6 +141,9 @@ def add_employee(request):
         profile_form = ProfileForm(request.POST)
         if profile_form.is_valid() and user_form.is_valid():
             user = user_form.save()
+            user.username = user_form.cleaned_data['username']
+            user.set_password(user_form.cleaned_data['password'])
+            user.save()
             user.profile.surname = profile_form.cleaned_data['surname']
             user.profile.first_name = profile_form.cleaned_data['first_name']
             user.profile.last_name = profile_form.cleaned_data['last_name']

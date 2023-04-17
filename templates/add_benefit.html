@@ -1,5 +1,60 @@
 {% extends 'logged_worker.html' %}
 {% block nav %}
+        <head>
+        <style>
+            .headerLabel {
+                margin-bottom: 15px;
+                padding-left: 15px;
+                font-style: inherit;
+            }
+
+            .content {
+                display: flex;
+            }
+
+            .form-group {
+                position: relative;
+                display: flex;
+                padding-left: 25px;
+                padding-top: 10px   ;
+                align-items: center;
+            }
+
+
+            .employee-data {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+
+            }
+
+            .textLabel {
+                width: 200px;
+            }
+
+            input[type="text"], input[type="password"], input[type="email"] {
+                border: 1px solid #ccc;
+                display: inline-block;
+                float: right;
+                margin-left: 30px;
+                border-radius: 100px;
+            }
+
+            button[type="submit"] {
+                margin: 0 auto;
+                display: block;
+                align-items: center;
+                margin-top: 50px;
+                padding: 15px;
+                background-color: #FF0000;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                border-radius: 100px;
+            }
+        </style>
+        </head>
         <div class = "wrapper">
             <div class = "nav-rect2">
                 <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
@@ -8,11 +63,27 @@
                 <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
             <div class="content">
+                <label class="headerLabel">Добавить льготу:</label>
                 <div class = "employee-data">
                     <form method="post">
                         {% csrf_token %}
-                        {{ form }}
-                        <button type="submit">Создать новую льготу</button>
+                        <div class="form-group">
+                            <label class="textLabel" for="{{ user_form.username.id_for_label }}">Название льготы: </label>
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group">
+                            <label class="textLabel" for="{{ user_form.password.id_for_label }}">Цена за льготу:</label>
+                            {{ form.price }}
+                        </div>
+                        <div class="form-group">
+                            <label class="textLabel" for="{{ profile_form.surname.id_for_label }}">Город:</label>
+                            {{ form.city }}
+                        </div>
+                        <div class="form-group">
+                            <label class="textLabel" for="{{ profile_form.first_name.id_for_label }}">Описание:</label>
+                            {{ form.description }}
+                        </div>
+                        <button type="submit">Добавить льготу</button>
                     </form>
                 </div>
             </div>
