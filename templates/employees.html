@@ -18,6 +18,10 @@
                     {% csrf_token %}
                         <input type="submit" value="Удалить сотрудника">
                     </form>
+                    <form method="post" action="{% url 'add_score' item.pk %}">
+                    {% csrf_token %}
+                         <input type="submit" value="Начислить бонусы">
+                    </form>
                 {% endif %}
             {% endfor %}
         </ul>

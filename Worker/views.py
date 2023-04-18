@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from Benefits.forms import BenefitsForm
 from Benefits.models import Benefit, Purchase, Wish
-from Worker.forms import LoginForm, ProfileForm, UserForm
+from Worker.forms import LoginForm, ProfileForm, UserForm, ScoreForm
 from django.urls import reverse
 
 from Worker.models import Profile
@@ -158,6 +158,21 @@ def add_employee(request):
         profile_form = ProfileForm()
         user_form = UserForm()
     return render(request, 'add_employee.html', {'profile_form': profile_form, 'user_form': user_form})
+
+
+@login_required
+def add_score(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ScoreForm(request.POST)
+        if form.is_valid():
+            score_to_add = form.cleaned_data['score_to_add']
+            profile.balance += score_to_add
+            profile.save()
+            return redirect('employees_show')
+    else:
+        form = ScoreForm()
+    return render(request, 'add_bonuses.html', {'form': form})
 
 
 @login_required

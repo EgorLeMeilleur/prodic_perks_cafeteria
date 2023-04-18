@@ -11,6 +11,7 @@ urlpatterns = [
     path('wished_remove/<int:pk>/', views.wished_remove, name='wished_remove'),
     path('delete_benefit/<int:pk>/', views.delete_benefit, name='delete_benefit'),
     path('delete_worker/<int:pk>/', views.delete_worker, name='delete_worker'),
+    path('add_score/<int:pk>', views.add_score, name='add_score'),
     path('personal_cabinet/list_of_wishes', views.wished_show, name='wished_show'),
     path('personal_cabinet/list_of_benefits', views.sort_by_popularity, name='benefits_show'),
     path('personal_cabinet/list_of_employees', views.employees_show, name='employees_show'),

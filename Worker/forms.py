@@ -29,3 +29,6 @@ class ProfileForm(forms.Form):
         model = Profile
         fields = ('surname', 'first_name', 'last_name', 'email', 'position', 'experience', 'balance', 'city')
 
+
+class ScoreForm(forms.Form):
+    score_to_add = forms.DecimalField(max_digits=10000, decimal_places=2, label='Количество баллов')
