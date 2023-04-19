@@ -12,16 +12,18 @@
         <p>Список сотрудников:</p>
         <ul>
             {% for item in employees %}
-                <li>{{ item.profile.surname }} {{ item.profile.first_name }}</li>
                 {% if item.pk != user.pk %}
-                    <form method="post" action="{% url 'delete_worker' item.pk %}">
-                    {% csrf_token %}
-                        <input type="submit" value="Удалить сотрудника">
-                    </form>
-                    <form method="post" action="{% url 'add_score' item.pk %}">
-                    {% csrf_token %}
-                         <input type="submit" value="Начислить бонусы">
-                    </form>
+                    <li>{{ item.profile.surname }} {{ item.profile.first_name }}</li>
+                        {% if item.profile.position != "HR" and item.profile.position != "hr" %}
+                            <form method="post" action="{% url 'delete_worker' item.pk %}">
+                            {% csrf_token %}
+                                <input type="submit" value="Удалить сотрудника">
+                            </form>
+                            <form method="post" action="{% url 'add_score' item.pk %}">
+                            {% csrf_token %}
+                                 <input type="submit" value="Начислить бонусы">
+                            </form>
+                        {% endif %}
                 {% endif %}
             {% endfor %}
         </ul>

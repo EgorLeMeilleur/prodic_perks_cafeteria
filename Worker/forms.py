@@ -32,3 +32,7 @@ class ProfileForm(forms.Form):
 
 class ScoreForm(forms.Form):
     score_to_add = forms.DecimalField(max_digits=10000, decimal_places=2, label='Количество баллов')
+
+
+class DocumentForm(forms.Form):
+    document = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept': '.doc, application/msword'}))

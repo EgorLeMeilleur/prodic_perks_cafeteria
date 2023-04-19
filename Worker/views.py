@@ -3,6 +3,7 @@ import openpyxl
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.checks import messages
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -65,13 +66,19 @@ def benefits_show(request):
 def bought(request, pk):
     user_id = request.user
     benefit = get_object_or_404(Benefit, pk=pk)
-    if user_id.profile.balance >= benefit.price:
-        user_id.profile.balance -= benefit.price
-        new_obj = Purchase(user=user_id, benefit=benefit)
-        if Wish.objects.filter(user=user_id, benefit=benefit).exists():
-            Wish.objects.filter(user=user_id, benefit=benefit).delete()
-        new_obj.save()
-        user_id.save()
+    if request.method == 'POST':
+        document = request.FILES.get('document')
+        if document.content_type != 'application/msword':
+            return redirect('benefits_show')
+        if user_id.profile.balance >= benefit.price and document:
+            user_id.profile.balance -= benefit.price
+            new_obj = Purchase(user=user_id, benefit=benefit)
+            if Wish.objects.filter(user=user_id, benefit=benefit).exists():
+                Wish.objects.filter(user=user_id, benefit=benefit).delete()
+            new_obj.save()
+            user_id.save()
+        else:
+            return redirect('benefits_show')
     return redirect('personal_cabinet')
 
 
@@ -163,6 +170,7 @@ def add_employee(request):
 @login_required
 def add_score(request, pk):
     profile = Profile.objects.get(pk=pk)
+    user = User.objects.get(pk=pk)
     if request.method == 'POST':
         form = ScoreForm(request.POST)
         if form.is_valid():
@@ -172,7 +180,14 @@ def add_score(request, pk):
             return redirect('employees_show')
     else:
         form = ScoreForm()
-    return render(request, 'add_bonuses.html', {'form': form})
+    return render(request, 'add_bonuses.html', {'form': form, 'user': user})
+
+
+@login_required
+def my_view(request, pk):
+    if request.method == 'POST':
+        document = request.FILES['document']
+    return redirect('personal_cabinet')
 
 
 @login_required
@@ -185,6 +200,7 @@ def add_benefit(request):
     else:
         form = BenefitsForm()
     return render(request, 'add_benefit.html', {'form': form})
+
 
 
 @login_required

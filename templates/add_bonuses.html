@@ -64,7 +64,7 @@
                 <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
             <div class="content">
-                <label class="headerLabel">Начисление бонусов</label>
+                <label class="headerLabel">Начисление бонусов сотруднику: {{ user.username }}</label>
                 <div class = "employee-data">
                     <form method="post">
                         {% csrf_token %}
