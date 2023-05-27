@@ -1,12 +1,11 @@
-import xlwt
 import openpyxl
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.checks import messages
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from pyexpat.errors import messages
 
 from Benefits.forms import BenefitsForm
 from Benefits.models import Benefit, Purchase, Wish
@@ -45,8 +44,6 @@ def personal_cabinet(request):
         return render(request, 'logged_hr.html', {'benefits': bought_benefits})
     else:
         return render(request, 'logged_worker.html', {'benefits': bought_benefits})
-    # bought_benefits = Purchase.objects.filter(user=user)
-    # param = {'benefits': benefits, 'bought_benefits': bought_benefits, 'wished_benefits': wished_benefits}
 
 
 @login_required
@@ -68,17 +65,19 @@ def bought(request, pk):
     benefit = get_object_or_404(Benefit, pk=pk)
     if request.method == 'POST':
         document = request.FILES.get('document')
-        if document.content_type != 'application/msword':
-            return redirect('benefits_show')
-        if user_id.profile.balance >= benefit.price and document:
-            user_id.profile.balance -= benefit.price
-            new_obj = Purchase(user=user_id, benefit=benefit)
-            if Wish.objects.filter(user=user_id, benefit=benefit).exists():
-                Wish.objects.filter(user=user_id, benefit=benefit).delete()
-            new_obj.save()
-            user_id.save()
+        if document:
+            if document.content_type != 'application/msword':
+                return redirect('benefits_show')
         else:
-            return redirect('benefits_show')
+            if user_id.profile.balance >= benefit.price:
+                user_id.profile.balance -= benefit.price
+            else:
+                return redirect('benefits_show')
+        new_obj = Purchase(user=user_id, benefit=benefit)
+        if Wish.objects.filter(user=user_id, benefit=benefit).exists():
+            Wish.objects.filter(user=user_id, benefit=benefit).delete()
+        new_obj.save()
+        user_id.save()
     return redirect('personal_cabinet')
 
 
@@ -158,6 +157,11 @@ def add_employee(request):
             user.profile.experience = profile_form.cleaned_data['experience']
             user.profile.city = profile_form.cleaned_data['city']
             user.profile.balance = profile_form.cleaned_data['balance']
+            if user.profile.balance < 0:
+                User.objects.filter(pk=user.pk).delete()
+                error_message = "Баланс не может быть отрицательным"
+                return render(request, 'add_employee.html', {'profile_form': profile_form,
+                                                             'user_form': user_form, 'error_message': error_message})
             user.profile.email = profile_form.cleaned_data['email']
             user.save()
             return redirect('employees_show')
@@ -202,10 +206,10 @@ def add_benefit(request):
     return render(request, 'add_benefit.html', {'form': form})
 
 
-
 @login_required
 def export_users_xls(request):
-    purchases_by_user = Purchase.objects.all().select_related('User', 'Benefit').order_by('user__username').values('user__username', 'benefit__name', 'date')
+    purchases_by_user = Purchase.objects.all().select_related('User', 'Benefit').order_by('user__username').values(
+        'user__username', 'benefit__name', 'date')
     workbook = openpyxl.Workbook()
 
     worksheet = workbook.active

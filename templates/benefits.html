@@ -1,4 +1,5 @@
 {% extends 'logged_worker.html' %}
+{% load static %}
 {% block nav %}
         <div class = "wrapper">
             <div class = "nav-rect2">
@@ -32,6 +33,7 @@
         </div>
         <ul>
         {% for item in benefits %}
+            <div class ="lol">
             <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>
             <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
             {% csrf_token %}

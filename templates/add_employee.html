@@ -107,6 +107,9 @@
                             <label class="textLabel" for="{{ profile_form.email.id_for_label }}">Email:</label>
                             {{ profile_form.email }}
                         </div>
+                        {% if error_message %}
+                            <label class="textLabel" >{{ error_message }}</label>
+                        {% endif %}
                         <button type="submit">Добавить сотрудника</button>
                     </form>
                 </div>
