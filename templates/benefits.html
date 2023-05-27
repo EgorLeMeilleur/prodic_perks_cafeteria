@@ -38,9 +38,10 @@
                 </form>
             </div>
 
-            <ul id = "benefit-list">
+            <table id = "benefit-list">
+            <tr id = "table-title"><td>Название льготы</td> <td>Стоимость</td>  <td>Город</td> <td>Описание</td></tr>
             {% for item in benefits %}
-                <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>
+                <tr><td>{{ item.name }}</td> <td>{{ item.price }}</td> <td>{{ item.city }}</td> <td>{{ item.description }}</td></tr>
                 <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% if user.profile.position != "HR" and user.profile.position != "hr" %}
@@ -66,7 +67,7 @@
                    </form>
                 {% endif %}
                 {% endfor %}
-            </ul>
+            </table>
         </div>
     </div>
 {% endblock %}
