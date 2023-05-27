@@ -1,5 +1,10 @@
 {% extends 'logged_worker.html' %}
+{% load static %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
 {% block nav %}
+    <div class = "everything">
         <div class = "wrapper">
             <div class = "nav-rect2">
                 <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
@@ -15,49 +20,53 @@
                 {% endif %}
                 <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
-        <div class="content">
-            <p>Сортировка</p>
-            <form method="post" action="{% url 'sort_by_popularity' %}">
-                {% csrf_token %}
-                <input type="submit" value="по популярности">
-            </form>
-            <form method="post" action="{% url 'sort_by_price' %}">
-                {% csrf_token %}
-                <input type="submit" value="по цене">
-            </form>
-            <form method="post" action="{% url 'sort_by_city' %}">
-                {% csrf_token %}
-                <input type="submit" value="по городу">
-            </form>
         </div>
-        <ul>
-        {% for item in benefits %}
-            <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>
-            <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% if user.profile.position != "HR" and user.profile.position != "hr" %}
-                {% if user.profile.balance < item.price or user.profile.city != item.city %}
-                    <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки" disabled>
-                    <input type="submit" value="Купить" disabled>
-                {% else %}
-                    <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки">
-                    <input type="submit" value="Купить">
-                {% endif %}
-            {% endif %}
-            </form>
-            <form method="post" action="{% url 'wished' item.pk %}">
-            {% csrf_token %}
+        <div class="benefit_content">
+            <p id = "sort-header"> Сортировка </p>
+            <div class = "sort-buttons">
+                <form method="post" action="{% url 'sort_by_popularity' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="по популярности">
+                </form>
+                <form method="post" action="{% url 'sort_by_price' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="по цене">
+                </form>
+                <form method="post" action="{% url 'sort_by_city' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="по городу">
+                </form>
+            </div>
+
+            <ul id = "benefit-list">
+            {% for item in benefits %}
+                <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>
+                <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
+                {% csrf_token %}
                 {% if user.profile.position != "HR" and user.profile.position != "hr" %}
-                    <input type="submit" value="В список желаний">
+                    {% if user.profile.balance < item.price or user.profile.city != item.city %}
+                        <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки" disabled>
+                        <input type="submit" value="Купить" disabled>
+                    {% else %}
+                        <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки">
+                        <input type="submit" value="Купить">
+                    {% endif %}
                 {% endif %}
-            </form>
-            {% if user.profile.position == 'hr' %}
-                <form method="post" action="{% url 'delete_benefit' item.pk %}">
+                </form>
+                <form method="post" action="{% url 'wished' item.pk %}">
                 {% csrf_token %}
-               <input type="submit" value="Удалить льготу">
-               </form>
-            {% endif %}
-            {% endfor %}
-        </ul>
+                    {% if user.profile.position != "HR" and user.profile.position != "hr" %}
+                        <input type="submit" value="В список желаний">
+                    {% endif %}
+                </form>
+                {% if user.profile.position == 'hr' %}
+                    <form method="post" action="{% url 'delete_benefit' item.pk %}">
+                    {% csrf_token %}
+                   <input type="submit" value="Удалить льготу">
+                   </form>
+                {% endif %}
+                {% endfor %}
+            </ul>
         </div>
+    </div>
 {% endblock %}
