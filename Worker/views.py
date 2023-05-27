@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from pyexpat.errors import messages
 
 from Benefits.forms import BenefitsForm
 from Benefits.models import Benefit, Purchase, Wish
@@ -184,7 +183,7 @@ def add_score(request, pk):
             return redirect('employees_show')
     else:
         form = ScoreForm()
-    return render(request, 'add_bonuses.html', {'form': form, 'user': user})
+    return render(request, 'add_bonuses.html', {'form': form, 'user1': user})
 
 
 @login_required

@@ -36,8 +36,10 @@
                 <a href="{% url 'logout' %}" style="color:white">Выйти из аккаунта</a>
             </div>
             <div class = "balance">
+                {% if user.profile.position != 'hr' and user.profile.position != 'HR' %}
                 <img src = "{% static 'Worker/img/money_box.png' %}" height = 27px>
                 <p>Баланс: {{ user.profile.balance }}</p>
+                {% endif %}
             </div>
         </div>
 

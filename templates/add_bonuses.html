@@ -1,4 +1,4 @@
-{% extends 'logged_worker.html' %}
+{% extends 'logged_hr.html' %}
 {% block nav %}
     <head>
         <style>
@@ -64,7 +64,7 @@
                 <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
             <div class="content">
-                <label class="headerLabel">Начисление бонусов сотруднику: {{ user.username }}</label>
+                <label class="headerLabel">Начисление бонусов сотруднику: {{ user1.username }}</label>
                 <div class = "employee-data">
                     <form method="post">
                         {% csrf_token %}
