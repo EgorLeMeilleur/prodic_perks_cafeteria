@@ -1,0 +1,36 @@
+.employees-list-content {
+    display:flex;
+    flex-direction:row;
+    justify-content: start;
+}
+
+.employees-info {
+    margin-top: 25px;
+    margin-left:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content: start;
+}
+
+#employees-list {
+    border-spacing: 20px 15px;
+}
+
+#employee-cell {
+    font-size:20px;
+    text-decoration:underline;
+}
+
+#employee-input {
+    font-size:15px;
+    border-radius:20px;
+    padding: 7px 7px;
+    color:white;
+    background-color: #ff0000;
+}
+
+#employees-header {
+    font-size:25px;
+    margin-bottom:25px;
+    font-weight:700;
+}
