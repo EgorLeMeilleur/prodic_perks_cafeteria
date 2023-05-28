@@ -84,6 +84,7 @@
     color:white;
     font-size: 13px;
     font-weight:400;
+
 }
 
 #img-logout {
@@ -168,6 +169,7 @@
 .employee-data {
     display:flex;
     flex-direction:row;
+    margin-top:25px;
 
 }
 
