@@ -1,31 +1,37 @@
 {% extends 'logged_worker.html' %}
-    {% block nav %}
-    <div class = "wrapper">
-        <div class = "nav-rect2">
-                <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
-                <a href = {% url 'benefits_show' %}>Каталог льгот</a>
-                <a id = "pers-cab-ref" href = {% url 'employees_show' %}>Список сотрудников</a>
-                <a href = {% url 'add_employee' %}>Добавить сотрудника</a>
-                <a href="{% url 'export_users_xls' %}">Информация о покупках сотрудников</a>
-                <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
+{% block nav %}
+    <div class = employees-list-content>
+        <div class = "wrapper">
+            <div class = "nav-rect2">
+                    <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
+                    <a href = {% url 'benefits_show' %}>Каталог льгот</a>
+                    <a id = "pers-cab-ref" href = {% url 'employees_show' %}>Список сотрудников</a>
+                    <a href = {% url 'add_employee' %}>Добавить сотрудника</a>
+                    <a href="{% url 'export_users_xls' %}">Информация о покупках сотрудников</a>
+                    <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
+            </div>
         </div>
-        <p>Список сотрудников:</p>
-        <ul>
-            {% for item in employees %}
-                {% if item.pk != user.pk %}
-                    <li>{{ item.profile.surname }} {{ item.profile.first_name }}</li>
-                        {% if item.profile.position != "HR" and item.profile.position != "hr" %}
-                            <form method="post" action="{% url 'delete_worker' item.pk %}">
-                            {% csrf_token %}
-                                <input type="submit" value="Удалить сотрудника">
-                            </form>
-                            <form method="post" action="{% url 'add_score' item.pk %}">
-                            {% csrf_token %}
-                                 <input type="submit" value="Начислить бонусы">
-                            </form>
-                        {% endif %}
-                {% endif %}
-            {% endfor %}
-        </ul>
+        <div class = employees-info>
+            <p id = "employees-header">Список сотрудников:</p>
+            <table id = "employees-list">
+                {% for item in employees %}
+                    {% if item.pk != user.pk %}
+                        <tr>
+                        <td id = "employee-cell">{{ item.profile.surname }} {{ item.profile.first_name }}</td>
+                            {% if item.profile.position != "HR" and item.profile.position != "hr" %}
+                                <form method="post" action="{% url 'delete_worker' item.pk %}">
+                                {% csrf_token %}
+                                    <td id = "employee-cell"><input id = "employee-input" type="submit" value="Удалить сотрудника"></td>
+                                </form>
+                                <form method="post" action="{% url 'add_score' item.pk %}">
+                                {% csrf_token %}
+                                     <td id = "employee-cell"><input id = "employee-input" type="submit" value="Начислить бонусы"></td>
+                                </form>
+                            {% endif %}
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
-    {% endblock %}
+{% endblock %}

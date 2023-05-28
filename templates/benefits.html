@@ -51,23 +51,23 @@
                 {% if user.profile.position != "HR" and user.profile.position != "hr" %}
                     {% if user.profile.balance < item.price or user.profile.city != item.city %}
                         <td><input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки" disabled></td>
-                        <td id = "buy-1"><input type="submit" value="Купить" disabled></td>
+                        <td id = "buy-1"><input id = "input-benefit" type="submit" value="Купить" disabled></td>
                     {% else %}
                         <td><input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки"></td>
-                        <td id = "buy-2"><input type="submit" value="Купить"></td>
+                        <td id = "buy-2"><input id = "input-benefit" type="submit" value="Купить"></td>
                     {% endif %}
                 {% endif %}
                 </form>
                 <form method="post" action="{% url 'wished' item.pk %}">
                 {% csrf_token %}
                     {% if user.profile.position != "HR" and user.profile.position != "hr" %}
-                        <td id="to-wish-list"><input type="submit" value="В список желаний"></td>
+                        <td id="to-wish-list"><input id = "input-benefit" type="submit" value="В список желаний"></td>
                     {% endif %}
                 </form>
                 {% if user.profile.position == 'hr' or user.profile.position == "HR" %}
                     <form method="post" action="{% url 'delete_benefit' item.pk %}">
                     {% csrf_token %}
-                        <td><input type="submit" value="Удалить льготу"></td>
+                        <td id ="delete-benefit"><input id = "input-benefit" type="submit" value="Удалить льготу"></td>
                    </form>
                 {% endif %}
                 {% endfor %}
