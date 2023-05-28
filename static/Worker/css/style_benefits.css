@@ -1,0 +1,95 @@
+.everything {
+        display: flex;
+        flex-direction:row;
+        justify-content: space-between;
+        width:100vh;
+}
+
+.benefit-content {
+        display: flex;
+        flex-direction:  column;
+        align-items: center;
+        justify-content:center;
+        width:700px;
+}
+
+#sort-header {
+        font-size: 30px;
+        text-align:center;
+        margin-top:25px;
+        margin-bottom:15px;
+        font-weight:600;
+}
+
+.sort-buttons  {
+        display:flex;
+        flex-direction:row;
+        justify-content: center;
+        margin-bottom:25px;
+}
+
+.sort-buttons input {
+        background:red;
+        color: white;
+        border-radius:20px;
+        padding: 10px 20px;
+        font-weight:500;
+        transition: all 500ms ease;
+        margin-right:10px;
+        margin-left:10px;
+        font-size:12px;
+}
+
+#benefit-list {
+        border: 1px solid  black;
+        border-spacing: 1em 0.5em;
+        border: 1px solid black;
+        border-collapse: collapse;
+}
+
+#benefit-list td {
+        font-size:18px;
+        text-align:left;
+        border: 1px  solid black;
+        border-collapse: collapse;
+        padding: 3px 5px;
+}
+
+#benefit-list tr {
+        border: 1px  solid black;
+        border-collapse: collapse;
+}
+
+#table-title {
+        font-weight:500;
+        text-align:center;
+}
+
+#buy-title {
+        border-right:0; !important;
+}
+
+#wish-title {
+        border-left: 0; !important;
+}
+
+#buy-1 {
+        border-right:0; !important;
+}
+
+#buy-2 {
+        border-right:0;  !important;
+
+}
+
+#to-wish-list {
+        border-left: 0; !important;
+
+}
+
+#input-benefit {
+        padding: 7px 7px;
+        border-radius: 20px;
+        color:white;
+        background-color: grey;
+}
