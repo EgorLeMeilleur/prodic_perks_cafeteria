@@ -20,7 +20,7 @@
             <p id = "w-benefits-header">Желаемые льготы:</p>
             <table id  = "w-benefits-list">
             {% for item in benefits %}
-                <tr><td id  = "w-benefits-cell">{{ item.benefit.name }}</td>
+                <tr`><td id  = "w-benefits-cell">-{{ item.benefit.name }}</td>
                 <form method="post" action="{% url 'wished_remove' item.benefit.pk %}">
                 {% csrf_token %}
                     <td id  = "w-benefits-cell"><input id  = "remove-from-w-list" type="submit" value="Убрать из списка желаний"></td>

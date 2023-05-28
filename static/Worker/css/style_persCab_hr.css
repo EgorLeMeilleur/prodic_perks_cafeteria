@@ -160,7 +160,7 @@
 .content {
     display:flex;
     flex-direction:column;
-    width:100%;
+    align-items:center;
 }
 
 .employee-data {
@@ -174,7 +174,7 @@
 }
 
 .bonuses {
-
+    display:block;
     margin: 0 auto;
     margin-top:50px;
     font-size:20px;
@@ -193,3 +193,9 @@
     color:#ff0000;
 }
 
+.logged-worker-page {
+        display: flex;
+        flex-direction:row;
+        width:100vh;
+        justify-content: space-between;
+}

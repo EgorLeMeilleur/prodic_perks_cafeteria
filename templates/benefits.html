@@ -39,8 +39,11 @@
             </div>
 
             <table id = "benefit-list">
-            <tr id = "table-title"><td>Название льготы</td> <td>Стоимость</td>  <td>Город</td> <td>Описание</td> <td>Оплатить документом</td>
-                <td id = "buy-title"></td> <td id = "wish-title"></td></tr>
+            <tr id = "table-title"><td>Название льготы</td> <td>Стоимость</td>  <td>Город</td> <td>Описание</td>
+                {% if user.profile.position != "HR" and user.profile.position != "hr" %}
+                <td>Оплатить документом</td>
+                    <td id = "buy-title"></td> <td id = "wish-title"></td></tr>
+                {% endif %}
             {% for item in benefits %}
                 <tr><td>{{ item.name }}</td> <td>{{ item.price }}</td> <td>{{ item.city }}</td> <td>{{ item.description }}</td>
                 <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
@@ -61,7 +64,7 @@
                         <td id="to-wish-list"><input type="submit" value="В список желаний"></td>
                     {% endif %}
                 </form>
-                {% if user.profile.position == 'hr' %}
+                {% if user.profile.position == 'hr' or user.profile.position == "HR" %}
                     <form method="post" action="{% url 'delete_benefit' item.pk %}">
                     {% csrf_token %}
                         <td><input type="submit" value="Удалить льготу"></td>
