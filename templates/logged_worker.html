@@ -68,7 +68,7 @@
                     <h1 id = "bonuses">Льготы</h1>
                     <div class = "bonus-list-worker">
                         {% for item in benefits %}
-                            <p id = "bonus-title">-{{ item.benefit.name }}</p> <br>
+                            <p id = "bonus-title">-{{ item.benefit.name }}: {{ item.benefit.description }}</p> <br>
                         {% endfor %}
                     </div>
                 </div>

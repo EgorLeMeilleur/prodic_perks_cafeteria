@@ -17,7 +17,8 @@
                 {% for item in employees %}
                     {% if item.pk != user.pk %}
                         <tr>
-                        <td id = "employee-cell">{{ item.profile.surname }} {{ item.profile.first_name }}</td>
+                        <td id = "employee-cell">{{ item.profile.surname }} {{ item.profile.first_name }}
+                            {{ item.profile.last_name }}: {{ item.profile.position }}</td>
                             {% if item.profile.position != "HR" and item.profile.position != "hr" %}
                                 <form method="post" action="{% url 'delete_worker' item.pk %}">
                                 {% csrf_token %}
