@@ -83,7 +83,8 @@
 .employee-info p {
     color:white;
     font-size: 13px;
-    font-weight:400px;
+    font-weight:400;
+
 }
 
 #img-logout {
@@ -106,7 +107,7 @@
     display:flex;
     flex-direction: row;
     margin-top: 25px;
-    width:100%;
+    width: 200px;
 }
 
 .nav-rect2 {
@@ -160,29 +161,31 @@
 .content {
     display:flex;
     flex-direction:column;
-    width:100%;
+    align-items:center;
+    float:left;
+
 }
 
 .employee-data {
     display:flex;
     flex-direction:row;
+    margin-top:25px;
+
 }
 
+#bonuses {
+    font-size:25px;
+    margin-top:20px;
+    margin-bottom:20px;
+    width:245px;
+    text-decoration:underline;
+    text-align:center;
+}
 
 .employee-data p {
     margin-left:35px;
 }
 
-.bonuses {
-
-    margin: 0 auto;
-    margin-top:50px;
-    font-size:20px;
-    font-weight:700;
-    padding: 18px 30px;
-    border-radius:25px;
-    background-color: #D9D9D9;
-}
 
 #aboba {
     font-weight:700;
@@ -193,3 +196,18 @@
     color:#ff0000;
 }
 
+.logged-worker-page {
+        display: flex;
+        flex-direction:row;
+}
+
+#bonus-title {
+    font-size:20px;
+    text-align:left;
+    align-self:flex-start;
+}
+
+.bonus-list-worker {
+    display:flex;
+    flex-direction: column;
+}

@@ -1,5 +1,10 @@
 {% extends 'logged_worker.html' %}
+
+<head>
+
+</head>
 {% block nav %}
+    <div class = "everything">
         <div class = "wrapper">
             <div class = "nav-rect2">
                 <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
@@ -10,16 +15,19 @@
                 {% endif %}
                 <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
-
-            <p>Желаемые льготы:</p>
-            <ul>
+        </div>
+        <div class = "w-benefits-content">
+            <p id = "w-benefits-header">Желаемые льготы:</p>
+            <table id  = "w-benefits-list">
             {% for item in benefits %}
-                <li>{{ item.benefit.name }}</li>
+                <tr`><td id  = "w-benefits-cell">-{{ item.benefit.name }}</td>
                 <form method="post" action="{% url 'wished_remove' item.benefit.pk %}">
                 {% csrf_token %}
-                    <input type="submit" value="Убрать из списка желаний">
+                    <td id  = "w-benefits-cell"><input id  = "remove-from-w-list" type="submit" value="Убрать из списка желаний"></td>
                 </form>
+                </tr>
                 {% endfor %}
-            </ul>
+            </table>
         </div>
+    </div>
 {% endblock %}

@@ -1,6 +1,10 @@
 {% extends 'logged_worker.html' %}
 {% load static %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
 {% block nav %}
+    <div class = "everything">
         <div class = "wrapper">
             <div class = "nav-rect2">
                 <a href = {% url 'personal_cabinet' %}> Личный кабинет</a>
@@ -16,50 +20,59 @@
                 {% endif %}
                 <a href = {% url 'faq' %}>(FAQ: как пользоваться каталогом?)</a>
             </div>
-        <div class="content">
-            <p>Сортировка</p>
-            <form method="post" action="{% url 'sort_by_popularity' %}">
-                {% csrf_token %}
-                <input type="submit" value="по популярности">
-            </form>
-            <form method="post" action="{% url 'sort_by_price' %}">
-                {% csrf_token %}
-                <input type="submit" value="по цене">
-            </form>
-            <form method="post" action="{% url 'sort_by_city' %}">
-                {% csrf_token %}
-                <input type="submit" value="по городу">
-            </form>
         </div>
-        <ul>
-        {% for item in benefits %}
-            <div class ="lol">
-            <li>{{ item.name }} {{ item.price }} {{ item.city }} {{ item.description }}</li>
-            <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% if user.profile.position != "HR" and user.profile.position != "hr" %}
-                {% if user.profile.balance < item.price or user.profile.city != item.city %}
-                    <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки" disabled>
-                    <input type="submit" value="Купить" disabled>
-                {% else %}
-                    <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки">
-                    <input type="submit" value="Купить">
-                {% endif %}
-            {% endif %}
-            </form>
-            <form method="post" action="{% url 'wished' item.pk %}">
-            {% csrf_token %}
+        <div class="benefit_content">
+            <p id = "sort-header"> Сортировка </p>
+            <div class = "sort-buttons">
+                <form method="post" action="{% url 'sort_by_popularity' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="по популярности">
+                </form>
+                <form method="post" action="{% url 'sort_by_price' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="по цене">
+                </form>
+                <form method="post" action="{% url 'sort_by_city' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="по городу">
+                </form>
+            </div>
+
+            <table id = "benefit-list">
+            <tr id = "table-title"><td>Название льготы</td> <td>Стоимость</td>  <td>Город</td> <td>Описание</td>
                 {% if user.profile.position != "HR" and user.profile.position != "hr" %}
-                    <input type="submit" value="В список желаний">
+                <td>Оплатить документом</td>
+                    <td id = "buy-title"></td> <td id = "wish-title"></td></tr>
                 {% endif %}
-            </form>
-            {% if user.profile.position == 'hr' %}
-                <form method="post" action="{% url 'delete_benefit' item.pk %}">
+            {% for item in benefits %}
+                <tr><td>{{ item.name }}</td> <td>{{ item.price }}</td> <td>{{ item.city }}</td> <td>{{ item.description }}</td>
+                <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
                 {% csrf_token %}
-               <input type="submit" value="Удалить льготу">
-               </form>
-            {% endif %}
-            {% endfor %}
-        </ul>
+                {% if user.profile.position != "HR" and user.profile.position != "hr" %}
+                    {% if user.profile.balance < item.price or user.profile.city != item.city %}
+                        <td><input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки" disabled></td>
+                        <td id = "buy-1"><input id = "input-benefit" type="submit" value="Купить" disabled></td>
+                    {% else %}
+                        <td><input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки"></td>
+                        <td id = "buy-2"><input id = "input-benefit" type="submit" value="Купить"></td>
+                    {% endif %}
+                {% endif %}
+                </form>
+                <form method="post" action="{% url 'wished' item.pk %}">
+                {% csrf_token %}
+                    {% if user.profile.position != "HR" and user.profile.position != "hr" %}
+                        <td id="to-wish-list"><input id = "input-benefit" type="submit" value="В список желаний"></td>
+                    {% endif %}
+                </form>
+                {% if user.profile.position == 'hr' or user.profile.position == "HR" %}
+                    <form method="post" action="{% url 'delete_benefit' item.pk %}">
+                    {% csrf_token %}
+                        <td id ="delete-benefit"><input id = "input-benefit" type="submit" value="Удалить льготу"></td>
+                   </form>
+                {% endif %}
+                {% endfor %}
+                </tr>
+            </table>
         </div>
+    </div>
 {% endblock %}
