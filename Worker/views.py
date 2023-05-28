@@ -214,20 +214,17 @@ def export_users_xls(request):
     worksheet = workbook.active
     worksheet.title = 'Purchases'
 
-    worksheet['A1'] = 'Сотрудник'
-    worksheet['B1'] = 'Льгота'
-    worksheet['C1'] = 'Дата'
+    worksheet['A1'] = 'Льгота'
+    worksheet['B1'] = 'Дата'
 
     row_num = 2
     for purchase in purchases_by_user:
-        worksheet.cell(row=row_num, column=1, value=purchase['user__username'])
-        worksheet.cell(row=row_num, column=2, value=purchase['benefit__name'])
-        worksheet.cell(row=row_num, column=3, value=purchase['date'].strftime('%Y-%m-%d %H:%M:%S'))
+        worksheet.cell(row=row_num, column=1, value=purchase['benefit__name'])
+        worksheet.cell(row=row_num, column=2, value=purchase['date'].strftime('%Y-%m-%d %H:%M:%S'))
         row_num += 1
 
-    worksheet.column_dimensions['A'].width = 20
-    worksheet.column_dimensions['B'].width = 50
-    worksheet.column_dimensions['C'].width = 20
+    worksheet.column_dimensions['A'].width = 50
+    worksheet.column_dimensions['B'].width = 20
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=purchases.xlsx'
