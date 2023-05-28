@@ -39,34 +39,36 @@
             </div>
 
             <table id = "benefit-list">
-            <tr id = "table-title"><td>Название льготы</td> <td>Стоимость</td>  <td>Город</td> <td>Описание</td></tr>
+            <tr id = "table-title"><td>Название льготы</td> <td>Стоимость</td>  <td>Город</td> <td>Описание</td> <td>Оплатить документом</td>
+                <td id = "buy-title"></td> <td id = "wish-title"></td></tr>
             {% for item in benefits %}
-                <tr><td>{{ item.name }}</td> <td>{{ item.price }}</td> <td>{{ item.city }}</td> <td>{{ item.description }}</td></tr>
+                <tr><td>{{ item.name }}</td> <td>{{ item.price }}</td> <td>{{ item.city }}</td> <td>{{ item.description }}</td>
                 <form method="post" action="{% url 'bought' item.pk %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% if user.profile.position != "HR" and user.profile.position != "hr" %}
                     {% if user.profile.balance < item.price or user.profile.city != item.city %}
-                        <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки" disabled>
-                        <input type="submit" value="Купить" disabled>
+                        <td><input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки" disabled></td>
+                        <td id = "buy-1"><input type="submit" value="Купить" disabled></td>
                     {% else %}
-                        <input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки">
-                        <input type="submit" value="Купить">
+                        <td><input type="file" name="document" accept=".doc, application/msword" title="Прикрепить документ для покупки"></td>
+                        <td id = "buy-2"><input type="submit" value="Купить"></td>
                     {% endif %}
                 {% endif %}
                 </form>
                 <form method="post" action="{% url 'wished' item.pk %}">
                 {% csrf_token %}
                     {% if user.profile.position != "HR" and user.profile.position != "hr" %}
-                        <input type="submit" value="В список желаний">
+                        <td id="to-wish-list"><input type="submit" value="В список желаний"></td>
                     {% endif %}
                 </form>
                 {% if user.profile.position == 'hr' %}
                     <form method="post" action="{% url 'delete_benefit' item.pk %}">
                     {% csrf_token %}
-                   <input type="submit" value="Удалить льготу">
+                        <td><input type="submit" value="Удалить льготу"></td>
                    </form>
                 {% endif %}
                 {% endfor %}
+                </tr>
             </table>
         </div>
     </div>
